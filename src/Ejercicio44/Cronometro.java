@@ -4,8 +4,6 @@
  */
 package Ejercicio44;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
@@ -13,49 +11,43 @@ import java.util.TimerTask;
  */
 public class Cronometro {
     
-    private static int horas = 0;
-    private static int minutos = 0;
-    private static int segundos = 0;
-
     public static void main(String[] args) {
-        Timer timer = new Timer();
+        int horas = 0;
+        int minutos = 0;
+        int segundos = 0;
 
-        // Programar tarea para ejecutarse cada segundo
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                actualizarCronometro();
-                mostrarCronometro();
-            }
-        }, 0, 1000); // Iniciar inmediatamente y repetir cada segundo
+        while (true) {
+            // Mostrar el cronómetro en formato HH:MM:SS
+            System.out.printf("%02d:%02d:%02d\n", horas, minutos, segundos);
 
-        // Esperar 10 segundos antes de detener el cronómetro (puedes ajustar este tiempo)
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            // Esperar un segundo
+            esperarSegundo();
 
-        // Detener el cronómetro después de 10 segundos
-        timer.cancel();
-    }
-
-    private static void actualizarCronometro() {
-        segundos++;
-
-        if (segundos == 60) {
-            segundos = 0;
-            minutos++;
-
-            if (minutos == 60) {
-                minutos = 0;
-                horas++;
+            // Incrementar los segundos y ajustar los minutos y las horas si es necesario
+            segundos++;
+            if (segundos == 60) {
+                segundos = 0;
+                minutos++;
+                if (minutos == 60) {
+                    minutos = 0;
+                    horas++;
+                    if (horas == 24) {
+                        horas = 0;
+                    }
+                }
             }
         }
     }
 
-    private static void mostrarCronometro() {
-        System.out.printf("%02d:%02d:%02d%n", horas, minutos, segundos);
+    // Método para esperar un segundo
+    public static void esperarSegundo() {
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 1000) {
+            // Esperar
+        }
     }
+
+    
+   
     
 }
